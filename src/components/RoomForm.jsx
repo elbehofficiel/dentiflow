@@ -1,64 +1,67 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-function RoomForm({ addRoom }) {
-  const [name, setName] = useState('')
-  const [capacity, setCapacity] = useState('')
-  const [equipment, setEquipment] = useState('')
+function RoomForm({ onAddRoom, room }) {
+  const [name, setName] = useState(room?.name || '')
+  const [typeId, setTypeId] = useState(room?.typeId || '')
+  const [status, setStatus] = useState(room?.status || 'available')
+  const [roomTypes, setRoomTypes] = useState([])
 
-  const handleSubmit = () => {
-    if (name && capacity && equipment) {
-      addRoom({ id: Date.now(), name, capacity: parseInt(capacity), equipment })
-      setName('')
-      setCapacity('')
-      setEquipment('')
-    } else {
-      alert('Veuillez remplir tous les champs.')
+  useEffect(() => {
+    const storedRoomTypes = JSON.parse(localStorage.getItem('roomTypes') || '[]')
+    setRoomTypes(storedRoomTypes)
+  }, [])
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (name.trim() && typeId) {
+      onAddRoom({ id: room?.id || Date.now(), name, typeId, status })
+      if (!room) {
+        setName('')
+        setTypeId('')
+        setStatus('available')
+      }
     }
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
-      <h2 className="text-xl font-semibold mb-4">Ajouter une Salle</h2>
-      <div className="mb-4">
-        <label className="block text-gray-700 mb-2" htmlFor="name">Nom de la salle</label>
+    <form onSubmit={handleSubmit} className="mb-6">
+      <div className="flex flex-col space-y-2">
+        <label htmlFor="roomName" className="text-lg font-medium">Nom de la salle</label>
         <input
           type="text"
-          id="name"
+          id="roomName"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full p-3 border rounded-lg"
-          placeholder="Ex: Salle 1"
+          className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Entrez le nom de la salle"
         />
+        <label htmlFor="roomType" className="text-lg font-medium">Type de salle</label>
+        <select
+          id="roomType"
+          value={typeId}
+          onChange={(e) => setTypeId(e.target.value)}
+          className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Sélectionnez un type</option>
+          {roomTypes.map(type => (
+            <option key={type.id} value={type.id}>{type.name}</option>
+          ))}
+        </select>
+        <label htmlFor="roomStatus" className="text-lg font-medium">État</label>
+        <select
+          id="roomStatus"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="available">Disponible</option>
+          <option value="out-of-service">Hors service</option>
+        </select>
+        <button type="submit" className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
+          {room ? 'Modifier' : 'Ajouter'}
+        </button>
       </div>
-      <div className="mb-4">
-        <label className="block text-gray-700 mb-2" htmlFor="capacity">Capacité (patients)</label>
-        <input
-          type="number"
-          id="capacity"
-          value={capacity}
-          onChange={(e) => setCapacity(e.target.value)}
-          className="w-full p-3 border rounded-lg"
-          placeholder="Ex: 2"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block text-gray-700 mb-2" htmlFor="equipment">Équipement</label>
-        <input
-          type="text"
-          id="equipment"
-          value={equipment}
-          onChange={(e) => setEquipment(e.target.value)}
-          className="w-full p-3 border rounded-lg"
-          placeholder="Ex: Fauteuil dentaire, Radiographie"
-        />
-      </div>
-      <button
-        onClick={handleSubmit}
-        className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700"
-      >
-        Ajouter
-      </button>
-    </div>
+    </form>
   )
 }
 

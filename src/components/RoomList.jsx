@@ -1,22 +1,60 @@
-function RoomList({ rooms, deleteRoom }) {
+import { useState, useEffect } from 'react'
+import RoomForm from './RoomForm.jsx'
+
+function RoomList({ rooms, onAddRoom, onDeleteRoom }) {
+  const [editingRoom, setEditingRoom] = useState(null)
+  const [roomTypes, setRoomTypes] = useState([])
+
+  useEffect(() => {
+    const storedRoomTypes = JSON.parse(localStorage.getItem('roomTypes') || '[]')
+    setRoomTypes(storedRoomTypes)
+  }, [])
+
+  const getRoomTypeName = (typeId) => {
+    const type = roomTypes.find(t => t.id === typeId)
+    return type ? type.name : 'Inconnu'
+  }
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="space-y-4">
+      {editingRoom && (
+        <div className="mb-6">
+          <h3 className="text-lg font-bold mb-2">Modifier la salle</h3>
+          <RoomForm
+            room={editingRoom}
+            onAddRoom={(updatedRoom) => {
+              onAddRoom(updatedRoom)
+              setEditingRoom(null)
+            }}
+          />
+        </div>
+      )}
       {rooms.length === 0 ? (
-        <p className="text-center col-span-full text-gray-600">Aucune salle enregistrée.</p>
+        <p className="text-gray-500">Aucune salle ajoutée.</p>
       ) : (
-        rooms.map((room) => (
-          <div key={room.id} className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold mb-2">{room.name}</h3>
-            <p className="text-gray-600 mb-1">Capacité: {room.capacity} patients</p>
-            <p className="text-gray-600 mb-4">Équipement: {room.equipment}</p>
-            <button
-              onClick={() => deleteRoom(room.id)}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-            >
-              Supprimer
-            </button>
-          </div>
-        ))
+        <ul className="space-y-2">
+          {rooms.map((room) => (
+            <li key={room.id} className="flex justify-between items-center bg-white p-3 rounded shadow">
+              <span>
+                {room.name} (Type: {getRoomTypeName(room.typeId)}, État: {room.status === 'available' ? 'Disponible' : 'Hors service'})
+              </span>
+              <div className="space-x-2">
+                <button
+                  onClick={() => setEditingRoom(room)}
+                  className="bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700"
+                >
+                  Modifier
+                </button>
+                <button
+                  onClick={() => onDeleteRoom(room.id)}
+                  className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                >
+                  Supprimer
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   )
