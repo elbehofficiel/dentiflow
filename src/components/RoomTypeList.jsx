@@ -5,25 +5,26 @@ function RoomTypeList({ roomTypes, onAddRoomType, onDeleteRoomType }) {
   const [editingRoomType, setEditingRoomType] = useState(null)
 
   return (
-    <div className="space-y-4">
+    <div className="card bg-base-100 p-4 shadow-md rounded-lg space-y-4">
+      <h3 className="text-xl font-semibold text-primary">Liste des types de salles</h3>
       {editingRoomType && (
-        <div className="mb-6">
-          <h3 className="text-lg font-bold mb-2">Modifier le type de salle</h3>
-          <RoomTypeForm
-            roomType={editingRoomType}
-            onAddRoomType={(updatedRoomType) => {
-              onAddRoomType(updatedRoomType)
-              setEditingRoomType(null)
-            }}
-          />
-        </div>
+        <RoomTypeForm
+          roomType={editingRoomType}
+          onAddRoomType={(updated) => {
+            onAddRoomType(updated)
+            setEditingRoomType(null)
+          }}
+        />
       )}
       {roomTypes.length === 0 ? (
         <p className="text-gray-500">Aucun type de salle ajouté.</p>
       ) : (
         <ul className="space-y-2">
           {roomTypes.map((type) => (
-            <li key={type.id} className="flex justify-between items-center bg-white p-3 rounded shadow">
+            <li
+              key={type.id}
+              className="flex justify-between items-center bg-white p-3 rounded shadow"
+            >
               <span>{type.name}</span>
               <div className="space-x-2">
                 <button

@@ -119,9 +119,22 @@ function AppointmentsPage() {
         <tbody>
           {appointments.map((app) => (
             <tr key={app.id}>
-              <td className="border p-2">{app.patientId}</td>
-              <td className="border p-2">{app.doctorId}</td>
-              <td className="border p-2">{app.roomId}</td>
+              <td className="border p-2">
+                {(() => {
+                  const patient = patients.find(p => p.id === Number(app.patientId));
+                  return patient ? `${patient.firstName} ${patient.lastName}` : app.patientId;
+                })()}
+              </td>
+              <td className="border p-2">
+                {(() => {
+                  const doc = doctors.find(d => d.id === Number(app.doctorId));
+                  return doc ? `${doc.firstName} ${doc.lastName}` : app.doctorId;
+                })()}
+              </td>
+              <td className="border p-2">{(() => {
+                const room = rooms.find(r => r.id === Number(app.roomId));
+                return room ? room.name : app.roomId;
+              })()}</td>
               <td className="border p-2">{app.date}</td>
               <td className="border p-2">{app.time}</td>
               <td className="border p-2">{app.status}</td>

@@ -2,7 +2,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import AuthPage from './pages/AuthPage.jsx';
 import AppointmentsPage from './pages/AppointmentsPage.jsx';
 import RoomsPage from './pages/RoomsPage.jsx';
-import RoomTypesPage from './pages/RoomTypesPage.jsx';
 import PatientsPage from './pages/PatientsPage.jsx';
 import DoctorsPage from './pages/DoctorsPage.jsx';
 import SpecialtiesPage from './pages/SpecialtiesPage.jsx';
@@ -12,6 +11,7 @@ import DashboardPage from './pages/DashboardPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import Layout from './components/Layout.jsx';
 import { useAuth } from './context/AuthContext.jsx';
+import RoomTypesPage from './pages/RoomTypesPage.jsx';
 
 function App() {
   const { user } = useAuth();

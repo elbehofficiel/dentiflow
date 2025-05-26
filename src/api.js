@@ -24,7 +24,8 @@ let specialties = [
   { id: 1, name: 'Dentisterie générale' }
 ];
 let roomTypes = [
-  { id: 1, name: 'Standard' }
+  { id: 1, name: 'Standard' },
+  { id: 2, name: 'VIP' }
 ];
 let documentTypes = [
   { id: 1, name: 'Radiographie' },

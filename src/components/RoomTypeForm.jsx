@@ -12,18 +12,20 @@ function RoomTypeForm({ onAddRoomType, roomType }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mb-6">
-      <div className="flex flex-col space-y-2">
-        <label htmlFor="roomTypeName" className="text-lg font-medium">Nom du type de salle</label>
+    <form onSubmit={handleSubmit} className="form-control mb-6 p-4 bg-base-100 shadow-md rounded-lg">
+      <div className="grid gap-4">
+        <label htmlFor="roomTypeName" className="label">
+          <span className="label-text text-lg font-medium">Nom du type de salle</span>
+        </label>
         <input
           type="text"
           id="roomTypeName"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="input input-bordered w-full"
           placeholder="Entrez le nom du type"
         />
-        <button type="submit" className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
+        <button type="submit" className="btn btn-primary">
           {roomType ? 'Modifier' : 'Ajouter'}
         </button>
       </div>

@@ -1,18 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar.jsx';
 import Header from './Header.jsx';
 
 export default function Layout() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const toggleSidebar = () => setSidebarOpen(open => !open);
-
   return (
     <div className="flex min-h-screen bg-background font-sans">
-      <Navbar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-      <main className={`flex-grow ${sidebarOpen ? 'ml-64' : 'ml-20'} p-8 bg-white transition-all`}> 
+      <Navbar />
+      <main className="flex-grow ml-64 p-8 bg-base-200"> 
         <div className="max-w-6xl mx-auto">
-          <Header toggleSidebar={toggleSidebar} />
+          <Header />
           <div className="space-y-6">
             <Outlet />
           </div>

@@ -16,5 +16,24 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('daisyui'),
+  ],
+  daisyui: {
+    themes: [
+      {
+        dentoflow: {
+          'primary': '#4F46E5',
+          'secondary': '#6D28D9',
+          'accent': '#F59E0B',
+          'base-100': '#F8FAFC',
+          'neutral': '#1E293B',
+          'info': '#3ABFF8',
+          'success': '#36D399',
+          'warning': '#FBBD23',
+          'error': '#F87272',
+        },
+      },
+    ],
+  },
 }

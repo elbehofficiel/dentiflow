@@ -21,7 +21,7 @@ function DashboardPage() {
         fetchAppointments(),
         fetchRooms(),
         fetchInvoices(),
-        fetchPayments()
+        fetchPayments(),
       ]);
       setStats({
         patients: pats.length,
@@ -58,7 +58,7 @@ function DashboardPage() {
 
   return (
     <PageContainer title="Tableau de bord">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div className="bg-white p-4 rounded shadow">
           <h3 className="text-lg font-semibold">Patients</h3>
           <p className="text-2xl">{stats.patients}</p>
@@ -100,25 +100,25 @@ function DashboardPage() {
           <p className="text-2xl">{quarterlyVAT.toFixed(2)} €</p>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">
         <div className="bg-white p-4 rounded shadow">
           <h3 className="text-lg font-semibold mb-2">Patients par sexe</h3>
           <ul className="list-disc list-inside">
-            {Object.entries(patientsBySex).map(([sex,count])=><li key={sex}>{sex}: {count}</li>)}
+            {Object.entries(patientsBySex).map(([sex,count]) => <li key={sex}>{sex}: {count}</li>)}
           </ul>
         </div>
         <div className="bg-white p-4 rounded shadow">
           <h3 className="text-lg font-semibold mb-2">Patients par médecin</h3>
           <ul className="list-disc list-inside">
-            {Object.entries(patientsPerDoctor).map(([doc,count])=><li key={doc}>{doc}: {count}</li>)}
+            {Object.entries(patientsPerDoctor).map(([doc,count]) => <li key={doc}>{doc}: {count}</li>)}
           </ul>
         </div>
-      </div>
-      <div className="bg-white p-4 rounded shadow mt-6">
-        <h3 className="text-lg font-semibold mb-2">Personnel par sexe</h3>
-        <ul className="list-disc list-inside">
-          {Object.entries(doctorsBySex).map(([sex,count])=><li key={sex}>{sex}: {count}</li>)}
-        </ul>
+        <div className="bg-white p-4 rounded shadow">
+          <h3 className="text-lg font-semibold mb-2">Personnel par sexe</h3>
+          <ul className="list-disc list-inside">
+            {Object.entries(doctorsBySex).map(([sex,count]) => <li key={sex}>{sex}: {count}</li>)}
+          </ul>
+        </div>
       </div>
     </PageContainer>
   );
