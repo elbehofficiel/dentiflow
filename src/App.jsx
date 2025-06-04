@@ -12,6 +12,11 @@ import NotFoundPage from './pages/NotFoundPage.jsx';
 import Layout from './components/Layout.jsx';
 import { useAuth } from './context/AuthContext.jsx';
 import RoomTypesPage from './pages/RoomTypesPage.jsx';
+import DocumentsPage from './pages/DocumentsPage.jsx';
+import PaymentsPage from './pages/PaymentsPage.jsx';
+import TreatmentsPage from './pages/TreatmentsPage.jsx';
+import TreatmentRecordsPage from './pages/TreatmentRecordsPage.jsx';
+import PatientTreatmentsPage from './pages/PatientTreatmentsPage.jsx';
 
 function App() {
   const { user } = useAuth();
@@ -28,8 +33,13 @@ function App() {
           <Route path="/room-types" element={<RoomTypesPage />} />
           <Route path="/specialties" element={<SpecialtiesPage />} />
           <Route path="/invoices" element={<InvoicesPage />} />
-          <Route path="/accounts" element={user && user.role==='ADMIN' ? <AccountsPage /> : <Navigate to="/appointments" />} />
-          <Route path="/dashboard" element={user && user.role==='ADMIN' ? <DashboardPage /> : <Navigate to="/appointments" />} />
+          <Route path="/payments" element={<PaymentsPage />} />
+          <Route path="/treatments" element={<TreatmentsPage />} />
+          <Route path="/appointments/:appointmentId/records" element={<TreatmentRecordsPage />} />
+          <Route path="/patients/:patientId/soins" element={<PatientTreatmentsPage />} />
+          <Route path="/accounts" element={<AccountsPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/documents" element={<DocumentsPage />} />
           <Route path="/" element={<Navigate to={user ? "/appointments" : "/auth"} />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>

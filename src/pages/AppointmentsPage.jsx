@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { fetchAppointments, createAppointment, deleteAppointment, fetchPatients, fetchDoctors, fetchRooms } from '../api.js';
 import PageContainer from '../components/PageContainer.jsx';
@@ -139,6 +140,11 @@ function AppointmentsPage() {
               <td className="border p-2">{app.time}</td>
               <td className="border p-2">{app.status}</td>
               <td className="border p-2">
+                {['ADMIN', 'INFERMIERE', 'ASSISTANTE', 'DOCTEUR'].includes(user.role) && (
+                  <Link to={`/appointments/${app.id}/records`} className="bg-green-500 text-white p-1 rounded mr-2">
+                    Dossier Soins
+                  </Link>
+                )}
                 {['ADMIN', 'INFERMIERE'].includes(user.role) && (
                   <button
                     onClick={() => handleDelete(app.id)}

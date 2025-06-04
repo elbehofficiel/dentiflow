@@ -52,11 +52,10 @@ export function AuthProvider({ children }) {
             console.log('Login failed: Account is disabled');
             reject(new Error('Ce compte est désactivé.'));
           } else {
-            // Force ADMIN role for all logged users
-            const adminAccount = { ...account, role: 'ADMIN' };
-            setUser(adminAccount);
-            localStorage.setItem('user', JSON.stringify(adminAccount));
-            console.log('Login successful:', adminAccount);
+            // Set user as authenticated
+            setUser(account);
+            localStorage.setItem('user', JSON.stringify(account));
+            console.log('Login successful:', account);
             resolve(true);
           }
         } catch (err) {
@@ -86,11 +85,9 @@ export function AuthProvider({ children }) {
             };
             accounts.push(newUser);
             localStorage.setItem('accounts', JSON.stringify(accounts));
-            // Force ADMIN role on register
-            const adminNewUser = { ...newUser, role: 'ADMIN' };
-            setUser(adminNewUser);
-            localStorage.setItem('user', JSON.stringify(adminNewUser));
-            console.log('Register successful:', adminNewUser);
+            setUser(newUser);
+            localStorage.setItem('user', JSON.stringify(newUser));
+            console.log('Register successful:', newUser);
             resolve(true);
           }
         } catch (err) {
